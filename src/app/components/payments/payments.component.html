@@ -1,0 +1,93 @@
+<div class="payment-container">
+    <h2>Payment Management</h2>
+  
+    <!-- LIST MODE -->
+    <div *ngIf="mode === 'list'">
+      <button class="create-btn" (click)="goToCreate()">➕ New Payment</button>
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Rental ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of payments">
+            <td>{{ payment.paymentId }}</td>
+            <td>{{ payment.rentalId }}</td>
+            <td>{{ payment.paymentDate | date:'short' }}</td>
+            <td>{{ payment.amountPaid }}</td>
+            <td>{{ payment.paymentStatus }}</td>
+            <td>
+              <button (click)="goToDetails(payment)">🔍</button>
+              <button (click)="goToEdit(payment)">✏️</button>
+              <button (click)="onDelete(payment.paymentId)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- FORM MODE -->
+    <div *ngIf="mode === 'create' || mode === 'edit'">
+      <h3>{{ mode === 'create' ? 'Create Payment' : 'Edit Payment' }}</h3>
+      <form (ngSubmit)="savePayment()">
+  
+        <label>Rental ID:
+          <input type="number"
+          class="no-spinner"
+                 [(ngModel)]="formData.rentalId"
+                 name="rentalId"
+                 placeholder="Enter Rental ID"
+                 [disabled]="mode === 'edit'"
+                 required />
+        </label><br />
+  
+        <label>Payment Date:
+          <input type="datetime-local"
+                 [ngModel]="formatDateForInput(formData.paymentDate)"
+                 (ngModelChange)="formData.paymentDate = $event"
+                 name="paymentDate"
+                 required />
+        </label><br />
+  
+        <label>Amount Paid:
+          <input type="number"
+                 [(ngModel)]="formData.amountPaid"
+                 class="no-spinner"
+                 placeholder="Enter Amount"
+                 name="amountPaid"
+                 step="0.01"
+                 min="0"
+                 required />
+        </label><br />
+  
+        <label>Payment Status:
+            <select [(ngModel)]="formData.paymentStatus" name="paymentStatus" required>
+                <option value="">-- Select Status --</option>
+                <option value="Completed">Completed</option>
+                <option value="Not Completed">Not Completed</option>
+            </select>
+        </label><br />
+  
+        <button type="submit">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- VIEW MODE -->
+    <div *ngIf="mode === 'view' && selectedPayment">
+      <h3>Payment Details</h3>
+      <p><strong>ID:</strong> {{ selectedPayment!.paymentId }}</p>
+      <p><strong>Rental ID:</strong> {{ selectedPayment!.rentalId }}</p>
+      <p><strong>Date:</strong> {{ selectedPayment!.paymentDate | date:'medium' }}</p>
+      <p><strong>Amount:</strong> {{ selectedPayment!.amountPaid }}</p>
+      <p><strong>Status:</strong> {{ selectedPayment!.paymentStatus }}</p>
+      <button (click)="cancel()">Back</button>
+    </div>
+  </div>
+  

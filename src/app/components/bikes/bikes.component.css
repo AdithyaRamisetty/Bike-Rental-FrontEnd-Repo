@@ -1,0 +1,56 @@
+.bike-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .bike-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  
+  .bike-table th,
+  .bike-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .create-btn {
+    background: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+  }
+  
+  input,
+  select {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 6px 12px;
+    margin-top: 10px;
+  }
+  
+  .no-spinner {
+    appearance: textfield;
+  }
+  
+  /* Extra support for Chrome/Safari */
+  .no-spinner::-webkit-outer-spin-button,
+  .no-spinner::-webkit-inner-spin-button {
+    display: none;
+  }

@@ -1,0 +1,55 @@
+<div class="customer-container">
+    <h2>Customer Management</h2>
+  
+    <!-- LIST VIEW -->
+    <div *ngIf="mode === 'list'">
+      <button class="create-btn" (click)="goToCreate()">➕ New Customer</button>
+      <table class="customer-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First</th>
+            <th>Last</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers">
+            <td>{{ customer.customerId }}</td>
+            <td>{{ customer.firstName }}</td>
+            <td>{{ customer.lastName }}</td>
+            <td>{{ customer.email }}</td>
+            <td>
+              <button (click)="goToDetails(customer)">🔍</button>
+              <button (click)="goToEdit(customer)">✏️</button>
+              <button (click)="onDelete(customer.customerId!)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- CREATE / EDIT FORM -->
+    <div *ngIf="mode === 'create' || mode === 'edit'">
+      <h3>{{ mode === 'create' ? 'Create New Customer' : 'Edit Customer' }}</h3>
+      <form (ngSubmit)="saveCustomer()">
+        <label>First Name: <input [(ngModel)]="formData.firstName" name="firstName" required /></label><br />
+        <label>Last Name: <input [(ngModel)]="formData.lastName" name="lastName" required /></label><br />
+        <label>Email: <input [(ngModel)]="formData.email" name="email" required /></label><br />
+        <label>Password: <input [(ngModel)]="formData.password" name="password" type="password" required /></label><br />
+        <button type="submit">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- DETAILS VIEW -->
+    <div *ngIf="mode === 'view' && selectedCustomer">
+      <h3>Customer Details</h3>
+      <p><strong>ID:</strong> {{ selectedCustomer.customerId }}</p>
+      <p><strong>First Name:</strong> {{ selectedCustomer.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ selectedCustomer.lastName }}</p>
+      <p><strong>Email:</strong> {{ selectedCustomer.email }}</p>
+      <button (click)="cancel()">Back</button>
+    </div>
+  </div>

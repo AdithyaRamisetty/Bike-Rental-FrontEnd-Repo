@@ -1,0 +1,108 @@
+<div class="rental-container">
+    <h2>Rental Management</h2>
+  
+    <!-- LIST MODE -->
+    <div *ngIf="mode === 'list'">
+      <button class="create-btn" (click)="goToCreate()">➕ New Rental</button>
+      <table class="rental-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Bike</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Total Amount</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rental of rentals">
+            <td>{{ rental.rentalId }}</td>
+            <td>{{ rental.customerId }}</td>
+            <td>{{ rental.bikeId }}</td>
+            <td>{{ rental.rentalStartTime | date:'short' }}</td>
+            <td>{{ rental.rentalEndTime | date:'short' }}</td>
+            <td>{{ rental.totalAmount }}</td>
+            <td>
+              <button (click)="goToDetails(rental)">🔍</button>
+              <button (click)="goToEdit(rental)">✏️</button>
+              <button (click)="onDelete(rental.rentalId)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- FORM MODE -->
+    <div *ngIf="mode === 'create' || mode === 'edit'">
+      <h3>{{ mode === 'create' ? 'Create Rental' : 'Edit Rental' }}</h3>
+      <form (ngSubmit)="saveRental()">
+  
+        <!-- Customer ID -->
+        <label>Customer ID:
+          <input type="number"
+                 [(ngModel)]="formData.customerId"
+                 name="customerId"
+                 [disabled]="mode === 'edit'"
+                 class="no-spinner"
+                 required />
+        </label><br />
+  
+        <!-- Bike ID -->
+        <label>Bike ID:
+          <input type="number"
+                 [(ngModel)]="formData.bikeId"
+                 name="bikeId"
+                 [disabled]="mode === 'edit'"
+                 class="no-spinner"
+                 required />
+        </label><br />
+  
+        <!-- Rental Start Time -->
+        <label>Rental Start Time:
+          <input type="datetime-local"
+                 [ngModel]="formatDateForInput(formData.rentalStartTime)"
+                 (ngModelChange)="formData.rentalStartTime = $event"
+                 name="rentalStartTime"
+                 required />
+        </label><br />
+  
+        <!-- Rental End Time -->
+        <label>Rental End Time:
+          <input type="datetime-local"
+                 [ngModel]="formatDateForInput(formData.rentalEndTime)"
+                 (ngModelChange)="formData.rentalEndTime = $event"
+                 name="rentalEndTime"
+                 required />
+        </label><br />
+  
+        <!-- Total Amount -->
+        <label>Total Amount:
+          <input type="number"
+                 [(ngModel)]="formData.totalAmount"
+                 name="totalAmount"
+                 class="no-spinner"
+                 step="0.01"
+                 min="0"
+                 required />
+        </label><br />
+  
+        <button type="submit">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- VIEW MODE -->
+    <div *ngIf="mode === 'view' && selectedRental">
+      <h3>Rental Details</h3>
+      <p><strong>ID:</strong> {{ selectedRental!.rentalId }}</p>
+      <p><strong>Customer ID:</strong> {{ selectedRental!.customerId }}</p>
+      <p><strong>Bike ID:</strong> {{ selectedRental!.bikeId }}</p>
+      <p><strong>Start:</strong> {{ selectedRental!.rentalStartTime | date:'medium' }}</p>
+      <p><strong>End:</strong> {{ selectedRental!.rentalEndTime | date:'medium' }}</p>
+      <p><strong>Total Amount:</strong> {{ selectedRental!.totalAmount }}</p>
+      <button (click)="cancel()">Back</button>
+    </div>
+  </div>
+  

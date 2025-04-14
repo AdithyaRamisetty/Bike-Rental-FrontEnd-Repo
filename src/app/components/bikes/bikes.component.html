@@ -1,0 +1,63 @@
+<div class="bike-container">
+    <h2>Bike Management</h2>
+  
+    <!-- LIST VIEW -->
+    <div *ngIf="mode === 'list'">
+      <button class="create-btn" (click)="goToCreate()">➕ New Bike</button>
+      <table class="bike-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Model</th>
+            <th>Price/Hour</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bike of bikes">
+            <td>{{ bike.bikeId }}</td>
+            <td>{{ bike.bikeModel }}</td>
+            <td>{{ bike.rentalPricePerHour }}</td>
+            <td>{{ bike.availabilityStatus ? 'Available' : 'Not Available' }}</td>
+            <td>
+              <button (click)="goToDetails(bike)">🔍</button>
+              <button (click)="goToEdit(bike)">✏️</button>
+              <button (click)="onDelete(bike.bikeId)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- CREATE / EDIT FORM -->
+    <div *ngIf="mode === 'create' || mode === 'edit'">
+      <h3>{{ mode === 'create' ? 'Add New Bike' : 'Edit Bike' }}</h3>
+      <form (ngSubmit)="saveBike()">
+        <label>Model: <input [(ngModel)]="formData.bikeModel" name="bikeModel" required /></label><br />
+        <label>Rental Price per Hour:
+          <input [(ngModel)]="formData.rentalPricePerHour" name="rentalPricePerHour" step="0.01"
+          min="0" type="number" class="no-spinner" required />
+        </label><br />
+        <label>Status:
+          <select [(ngModel)]="formData.availabilityStatus" name="availabilityStatus">
+            <option [value]="true">Available</option>
+            <option [value]="false">Not Available</option>
+          </select>
+        </label><br />
+        <button type="submit">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- DETAILS VIEW -->
+    <div *ngIf="mode === 'view' && selectedBike">
+      <h3>Bike Details</h3>
+      <p><strong>ID:</strong> {{ selectedBike.bikeId }}</p>
+      <p><strong>Model:</strong> {{ selectedBike.bikeModel }}</p>
+      <p><strong>Rental Price:</strong> {{ selectedBike.rentalPricePerHour }}</p>
+      <p><strong>Status:</strong> {{ selectedBike.availabilityStatus ? 'Available' : 'Not Available' }}</p>
+      <button (click)="cancel()">Back</button>
+    </div>
+  </div>
+  
