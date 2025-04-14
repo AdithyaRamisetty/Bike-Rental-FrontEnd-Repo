@@ -13,7 +13,6 @@ body {
   flex-direction: column;
 }
 
-/* Navbar always at top */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -21,10 +20,27 @@ body {
   padding: 15px 30px;
   background-color: #343a40;
   color: white;
-  flex-shrink: 0;
 }
 
-/* Navigation links */
+/* Left section: Home + Title */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* spacing between 🏠 and title */
+}
+
+/* Home Button */
+.home-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Nav Links on the right */
 .nav-links {
   list-style: none;
   display: flex;
@@ -43,10 +59,3 @@ body {
   text-decoration: underline;
 }
 
-/* Content area fills rest of screen */
-.content {
-  flex: 1;
-  overflow-y: auto; /* Only this scrolls if needed */
-  padding: 20px;
-  box-sizing: border-box;
-}
